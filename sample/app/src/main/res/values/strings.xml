@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Example</string>
+    <string name="get">get</string>
+    <string name="post">post</string>
+    <string name="upload">upload</string>
+    <string name="image">image</string>
+    <string name="image2">image2</string>
+</resources>
