@@ -5,6 +5,13 @@
         @Override
         public void onCreate() {
             super.onCreate();
+ouHttp是将android app里一些常用的http请求的封装       
+####底层运用java的API HttpURLConnection实现，现在只封装了GET和POST方法。除此之外，还进行了一些小小的扩展。   
+* #####首先在application里初始化     
+    
+        @Override
+        public void onCreate() {
+            super.onCreate();
             CouHttp couHttp =CouHttp.getInstance();
             couHttp.init(getApplicationContext());
             couHttp.setDebug(true);//打印log
@@ -41,9 +48,11 @@
         file:///ab.png
         content://ac.webp
         assets://icon.jpg     
+        
 * #####下载文件    
     1.FileRequest(String url, File dir, String name, Listener<File> listener)     
     2.FileRequest(String url, File saved, Listener listener)    
+       
 * #####上传    
     1.BitmapUpload(String url, Listener<String> l, BitmapUpload.BitmapContainer... containers    
     2.BitmapUpload(String url, Map<String, String> params, Listener<String> l, BitmapUpload.BitmapContainer... containers)    
@@ -52,6 +61,9 @@
     5.FileUpload(String url, Map<String, String> params, Listener<String> l, FileUpload.FileContainer... containers)    
     6.FileUpload(String url, Map<String, String> headers, Map<String, String> params, Listener<String> l, FileUpload.FileContainer... containers)    
     扩展直接bitmap上传，支持多文件    
-* ######所有请求支持都可以在RequestFactory创建    
+    
+* #####所有请求支持都可以在RequestFactory创建   
+      
 * 上传和下载均支持获取进度registProgressListener(ProgressListener progressListener)
+
 
