@@ -1,12 +1,6 @@
 ##CouHttp是将android app里一些常用的http请求的封装       
 ####底层运用java的API HttpURLConnection实现，现在只封装了GET和POST方法。除此之外，还进行了一些小小的扩展。   
-* #####首先在application里初始化     
-    
-        @Override
-        public void onCreate() {
-            super.onCreate();
-ouHttp是将android app里一些常用的http请求的封装       
-####底层运用java的API HttpURLConnection实现，现在只封装了GET和POST方法。除此之外，还进行了一些小小的扩展。   
+     
 * #####首先在application里初始化     
     
         @Override
