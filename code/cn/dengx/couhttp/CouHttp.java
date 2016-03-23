@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +49,7 @@ public class CouHttp {
     private NetworkChangeReceiver receiver;
 
     private NameGenerator nameGenerator;
-    private LruCache<String, WeakReference<Bitmap>> memoryCache;
+    private LruCache<String, Bitmap> memoryCache;
     private DiskCache diskCache;
 
     private static CouHttp instance;
@@ -104,14 +103,10 @@ public class CouHttp {
         int memory = DiskUtil.calculateMemoryCacheSize(appContext);
         if (memory < DiskUtil.MINI_SIZE_INT)
             memory = DiskUtil.MINI_SIZE_INT;
-        memoryCache = new LruCache<String, WeakReference<Bitmap>>(memory) {
+        memoryCache = new LruCache<String, Bitmap>(memory) {
             @Override
-            protected int sizeOf(String key, WeakReference<Bitmap> value) {
-                Bitmap bitmap = value.get();
-                if (bitmap != null) {
-                    return BitmapUtil.getBitmapSize(bitmap);
-                }
-                return 1;
+            protected int sizeOf(String key, Bitmap value) {
+                return BitmapUtil.getBitmapSize(value);
             }
         };
         CouLog.i("new LruCache capacity " + memory / 1024 + "kB");
@@ -196,7 +191,7 @@ public class CouHttp {
         return networkObservable;
     }
 
-    public LruCache<String, WeakReference<Bitmap>> getMemoryCache() {
+    public LruCache<String, Bitmap> getMemoryCache() {
         return memoryCache;
     }
 

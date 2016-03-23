@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 
 import cn.dengx.couhttp.cache.DiskCache;
@@ -22,14 +21,14 @@ import cn.dengx.couhttp.utils.BitmapUtil;
  */
 public class ImageHunter extends Hunter {
 
-    private LruCache<String, WeakReference<Bitmap>> lruCache;
+    private LruCache<String, Bitmap> lruCache;
 
     private DiskCache diskCache;
 
     private NameGenerator generator;
 
     public ImageHunter(@NonNull Request request, @NonNull Config config, @NonNull ByteBufferPool pool,
-                       @NonNull Handler handler, LruCache<String, WeakReference<Bitmap>> lruCache,
+                       @NonNull Handler handler, LruCache<String, Bitmap> lruCache,
                        DiskCache diskCache, @NonNull NameGenerator generator, @NonNull Context context) {
         super(request, config, pool, handler, context);
         this.lruCache = lruCache;
@@ -99,10 +98,10 @@ public class ImageHunter extends Hunter {
         if (bitmap != null) {
 
             Request request = getRequest();
-            if(request instanceof ImageRequest){
+            if (request instanceof ImageRequest) {
                 ImageRequest imageRequest = (ImageRequest) request;
-                ImageRequest.BitmapProcessor process =imageRequest.getBitmapProcessor();
-                if(process!=null){ // process bitmap
+                ImageRequest.BitmapProcessor process = imageRequest.getBitmapProcessor();
+                if (process != null) { // process bitmap
                     bitmap = process.process(bitmap);
                     entry.body = bitmap;
                 }
@@ -133,9 +132,7 @@ public class ImageHunter extends Hunter {
     private Bitmap getFromLruCache(String key) {
         Bitmap bitmap = null;
         if (lruCache != null) {
-            WeakReference<Bitmap> reference = lruCache.get(key);
-            if (reference != null)
-                bitmap = reference.get();
+            bitmap = lruCache.get(key);
         }
         return bitmap;
     }
@@ -150,8 +147,7 @@ public class ImageHunter extends Hunter {
 
     private void putLruCache(String key, Bitmap bitmap) {
         if (lruCache != null) {
-            WeakReference<Bitmap> reference = new WeakReference<>(bitmap);
-            lruCache.put(key, reference);
+            lruCache.put(key, bitmap);
             if (CouLog.debug)
                 CouLog.i("put lruCache key=" + key);
         }
