@@ -1,12 +1,9 @@
 package cn.dengx.couhttp;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 
 import java.io.File;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -18,7 +15,6 @@ import cn.dengx.couhttp.cache.DiskCache;
 import cn.dengx.couhttp.cache.LruCache;
 import cn.dengx.couhttp.cache.MD5NameGenerator;
 import cn.dengx.couhttp.cache.NameGenerator;
-import cn.dengx.couhttp.exception.CouHttpRuntimeException;
 import cn.dengx.couhttp.exception.InitialzationException;
 import cn.dengx.couhttp.network.NetworkChangeReceiver;
 import cn.dengx.couhttp.network.NetworkObservable;
@@ -79,8 +75,6 @@ public class CouHttp {
         this.appContext = appContext;
         if (networkObservable != null)
             throw new InitialzationException("CouHttp init yet");
-
-        checkNetworkPermission();
 
         handler = new CouHandler();
         networkState = new NetworkState();
@@ -202,10 +196,13 @@ public class CouHttp {
     public void setDiskCache() {
         checkInit();
         if (diskCache == null) {
-            checkExternalPermission();
-            File dir = DiskUtil.getDiskCacheDirectory(getAppContext());
-            if (dir != null)
-                diskCache = new BaseDiskCache(getAppContext(), dir);
+            try {
+                File dir = DiskUtil.getDiskCacheDirectory(getAppContext());
+                if (dir != null)
+                    diskCache = new BaseDiskCache(getAppContext(), dir);
+            } catch (Exception e) {
+                CouLog.e("setDiskCache error",e);
+            }
         }
     }
 
@@ -221,24 +218,6 @@ public class CouHttp {
 
     public void setDiskCache(DiskCache diskCache) {
         this.diskCache = diskCache;
-    }
-
-    private void checkExternalPermission() {
-        if (ContextCompat.checkSelfPermission(getAppContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            throw new CouHttpRuntimeException("no permission permission.READ_EXTERNAL_STORAGE");
-        if (ContextCompat.checkSelfPermission(getAppContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            throw new CouHttpRuntimeException("no permission permission.WRITE_EXTERNAL_STORAGE");
-    }
-
-    private void checkNetworkPermission() {
-        if (ContextCompat.checkSelfPermission(getAppContext(),
-                Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)
-            throw new CouHttpRuntimeException("no permission permission.INTERNET");
-        if (ContextCompat.checkSelfPermission(getAppContext(),
-                Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED)
-            throw new CouHttpRuntimeException("no permission permission.ACCESS_NETWORK_STATE");
     }
 
     private void checkInit() {

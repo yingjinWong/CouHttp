@@ -1,6 +1,8 @@
 package cn.dengx.example;
 
+import android.Manifest;
 import android.app.Application;
+import android.support.v4.content.PermissionChecker;
 
 import cn.dengx.couhttp.CouHttp;
 
@@ -12,9 +14,11 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CouHttp couHttp =CouHttp.getInstance();
+        CouHttp couHttp = CouHttp.getInstance();
         couHttp.init(getApplicationContext());
         couHttp.setDebug(true);
-        couHttp.setDiskCache();
+        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PermissionChecker.PERMISSION_GRANTED)
+            couHttp.setDiskCache();
     }
 }
