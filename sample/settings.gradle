@@ -1,1 +1,1 @@
-include ':app', ':CouHttp'
+include ':app'

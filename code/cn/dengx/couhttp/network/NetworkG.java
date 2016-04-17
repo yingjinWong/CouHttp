@@ -61,7 +61,7 @@ public class NetworkG {
         int num;
         switch (network) {
             case NO_NETWORK:
-                num = 0;
+                num = 2;
                 break;
             case NETWORK_2G:
                 num = 2;
@@ -76,7 +76,7 @@ public class NetworkG {
                 num = 5;
                 break;
             default:
-                num = 0;
+                num = 2;
         }
         return num;
     }
