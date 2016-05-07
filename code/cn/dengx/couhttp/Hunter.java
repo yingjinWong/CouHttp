@@ -192,7 +192,7 @@ public abstract class Hunter implements Runnable, Comparable<Hunter> {
                 @Override
                 public void run() {
                     if (requestSucc && entry.body != null) {
-                        finalListener.onResponse(entry.body);
+                        finalListener.onResponse(entry.body,request);
                     } else {
                         Response.Error error = new Response.Error(entry.e, entry.code);
                         finalListener.onFail(request, error);

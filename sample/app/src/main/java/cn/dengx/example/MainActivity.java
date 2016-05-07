@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void getImageFromAssets() {
         Request r = RequestFactory.image("assets://xxxh.jpg", new MyProcess(), new Response.Listener<Bitmap>() {
             @Override
-            public void onResponse(Bitmap result) {
+            public void onResponse(Bitmap result,Request request) {
                 imageView.setImageBitmap(result);
             }
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Request request = RequestFactory.image("http://imgsrc.baidu.com/forum/pic/item/dc54564e9258d109b2e4381dd158ccbf6c814d1d.jpg",
                 new Response.Listener<Bitmap>() {
                     @Override
-                    public void onResponse(Bitmap result) {
+                    public void onResponse(Bitmap result,Request request) {
                         imageView.setImageBitmap(result);
                     }
 
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        public void onResponse(String result) {
+        public void onResponse(String result,Request request) {
             textView.setText(result);
         }
 
