@@ -16,7 +16,7 @@ public abstract class Response<T> {
     }
 
     public interface Listener<T> {
-        void onResponse(T result,Request request);
+        void onResponse(T result, Request request);
 
         void onFail(Request request, Error error);
     }

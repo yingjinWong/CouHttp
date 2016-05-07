@@ -16,6 +16,7 @@ public abstract class NameGenerator {
     public static final String IMAGE_WEBP = ".webp";
     public static final String IMAGE_PNG = ".png";
     public static final String IMAGE_JPG = ".jpg";
+    public static final String IMAGE_JPEG = ".jpeg";
 
     public static final List<String> SUPPORT_POSTFIX = new ArrayList<>(3);
 
@@ -23,6 +24,7 @@ public abstract class NameGenerator {
         SUPPORT_POSTFIX.add(IMAGE_JPG);
         SUPPORT_POSTFIX.add(IMAGE_PNG);
         SUPPORT_POSTFIX.add(IMAGE_WEBP);
+        SUPPORT_POSTFIX.add(IMAGE_JPEG);
     }
 
     private String postfix;
