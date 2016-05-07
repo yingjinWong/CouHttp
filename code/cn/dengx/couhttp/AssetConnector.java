@@ -24,7 +24,7 @@ public class AssetConnector implements Connector {
     public void connect(@NonNull Request request, @NonNull Context context) throws CanceledException, IOException {
         AssetManager asset = context.getAssets();
         URI uri = request.getUri();
-        in = asset.open(uri.getHost());
+        in = asset.open(uri.getHost()+uri.getRawPath());
     }
 
     @Override
