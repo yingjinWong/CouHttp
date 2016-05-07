@@ -181,6 +181,7 @@ public abstract class Hunter implements Runnable, Comparable<Hunter> {
     public void afterConnectionClose(ByteBuffer buffer, final boolean requestSucc, final Entry entry) {
 
         final Request request = getRequest();
+        request.setFinished(true);
         Object l = request.getResponseListener();
         Response.Listener listener = null;
         if (l != null && l instanceof Response.Listener)

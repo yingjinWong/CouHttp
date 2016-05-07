@@ -37,6 +37,7 @@ public abstract class Request<T> {
     private int readTimeOut;
 
     private boolean canceled;
+    private boolean finished;
     private long birthTime;
 
     private int priority;
@@ -134,6 +135,22 @@ public abstract class Request<T> {
 
     public void setCanceled(boolean canceled) {
         this.canceled = canceled;
+    }
+
+    public Object getTag() {
+        return tag;
+    }
+
+    public void setTag(Object tag) {
+        this.tag = tag;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     public int getPriority() {
